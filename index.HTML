@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Célibataires Sexy Près de Chez Toi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      width: 90%;
+      max-width: 420px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #00ff99;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .geo {
+      font-weight: bold;
+      color: #00cc66;
+      margin-bottom: 20px;
+    }
+
+    .timer {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #ff6666;
+    }
+
+    .cta {
+      background: #00cc66;
+      color: #fff;
+      font-size: 18px;
+      padding: 15px 35px;
+      border: none;
+      border-radius: 12px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+
+    .cta:hover {
+      background: #00b359;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 22px; }
+      p, .timer { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 Célibataires Sexy Tout Près</h1>
+    <p>Plus de 1000 célibataires en ligne dans ta région.</p>
+    <div class="geo" id="geoLocation">Chargement de ta région...</div>
+    <div class="timer" id="countdown">Offre expire dans : 03:00</div>
+    <div class="cta" id="ctaBtn">Commencer Maintenant</div>
+  </div>
+
+  <script>
+    // === GEO IP ===
+    fetch("https://ipapi.co/json/")
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("geoLocation").textContent = `📍 Utilisateurs actifs en ${data.country_name}`;
+      })
+      .catch(() => {
+        document.getElementById("geoLocation").textContent = "📍 Utilisateurs actifs dans ta région";
+      });
+
+    // === Countdown Timer ===
+    let timerDuration = 120; // 2 minutes in seconds
+    const countdownEl = document.getElementById("countdown");
+    const backupURL = "https://your-backup-offer-link.com"; // 🟥 ব্যাকআপ CPA অফার লিংক দিন
+
+    const updateTimer = () => {
+      const minutes = Math.floor(timerDuration / 60);
+      const seconds = timerDuration % 60;
+      countdownEl.textContent = `Offre expire dans : ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      if (timerDuration === 0) {
+        window.location.href = backupURL; // রিডাইরেক্ট
+      }
+
+      if (timerDuration > 0) timerDuration--;
+    };
+
+    setInterval(updateTimer, 1000);
+
+    // === CPA Link with Popup + Fallback ===
+    const mainOfferURL = "https://your-main-offer-link.com";
+    
+    document.getElementById("ctaBtn").addEventListener("click", function () {
+      const win = window.open(mainOfferURL, "_blank");
+
+      setTimeout(() => {
+        if (!win || win.closed || typeof win.closed === "undefined") {
+          window.location.href = backupURL;
+        }
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
